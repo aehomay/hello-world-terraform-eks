@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-python
+  labels:
+    app: hello-world-python
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-world-python
+  template:
+    metadata:
+      labels:
+        app: hello-world-python
+    spec:
+      containers:
+      - name: hello-world-python
+        image: yourdockerhubusername/hello-world-python:latest # Replace with your actual image path
+        ports:
+        - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-world-python-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: hello-world-python
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
